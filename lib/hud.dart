@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/counter.dart';
+import 'package:minesweeper_online/helpers/box_decoration.dart';
 import 'package:minesweeper_online/models/game_state.dart';
 import 'package:minesweeper_online/state/board_state.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
@@ -20,15 +21,13 @@ class Hud extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
     final board = Provider.of<BoardState>(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.fromBorderSide(
-            Divider.createBorderSide(context),
-          ),
-        ),
+        decoration: BoxDecorationHelper.buildMinesweeperDecoration(
+          themeData.toggleButtonsTheme, true),
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,7 +40,7 @@ class Hud extends StatelessWidget {
               message: 'Restart Game',
               child: IconButton(
                 icon: Icon(GameStateIconMap[gameManager.state]),
-                color: Colors.yellow,
+                color: Theme.of(context).buttonColor,
                 onPressed: () => gameManager.restartGame(),
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/board.dart';
+import 'package:minesweeper_online/helpers/box_decoration.dart';
 import 'package:minesweeper_online/hud.dart';
 import 'package:minesweeper_online/models/game_state.dart';
 import 'package:minesweeper_online/services/square_service.dart';
@@ -14,12 +15,10 @@ class Minesweeper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
     return Container(
-      decoration: BoxDecoration(
-        border: Border.fromBorderSide(
-          Divider.createBorderSide(context),
-        ),
-      ),
+      decoration: BoxDecorationHelper.buildMinesweeperDecoration(
+          themeData.toggleButtonsTheme),
       child: ChangeNotifierProxyProvider<GameManagerState, BoardState>(
         initialBuilder: (_) =>
             BoardState(service: SweeperService(options: gameManager.options)),

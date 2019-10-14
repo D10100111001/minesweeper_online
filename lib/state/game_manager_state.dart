@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:minesweeper_online/models/game_options.dart';
 import 'package:minesweeper_online/models/game_state.dart';
 
@@ -12,6 +13,19 @@ class GameManagerState with ChangeNotifier {
 
   GameState _state = GameState.NotStarted;
   GameState get state => _state;
+
+  ThemeMode _mode = kDebugMode ? ThemeMode.dark : ThemeMode.system;
+  ThemeMode get mode => _mode;
+
+  setDarkTheme() {
+    _mode = ThemeMode.dark;
+    notifyListeners();
+  }
+
+  setLightTheme() {
+    _mode = ThemeMode.light;
+    notifyListeners();
+  }
 
   restartGame() {
     if (_state == GameState.NotStarted) return;

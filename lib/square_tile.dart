@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:minesweeper_online/helpers/box_decoration.dart';
 import 'package:minesweeper_online/models/square.dart';
 import 'package:minesweeper_online/models/square_state_type.dart';
 import 'package:minesweeper_online/models/square_type.dart';
@@ -23,23 +24,7 @@ class SquareTile extends StatelessWidget {
         ),
       );
     else {
-      final side1 = BorderSide(
-        color: themeData.color,
-        width: 3.0,
-      );
-      final side2 = BorderSide(
-        color: themeData.borderColor,
-        width: 3.0,
-      );
-      decoration = BoxDecoration(
-        color: themeData.fillColor,
-        border: Border(
-          left: side1,
-          top: side1,
-          right: side2,
-          bottom: side2,
-        ),
-      );
+      decoration = BoxDecorationHelper.buildMinesweeperDecoration(themeData);
     }
 
     return SizedBox(
