@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:minesweeper_online/minesweeper.dart';
+import 'package:minesweeper_online/minesweeper/minesweeper.dart';
 import 'package:minesweeper_online/page.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 import 'package:provider/provider.dart';

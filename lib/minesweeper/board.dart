@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/helpers/box_decoration.dart';
+import 'package:minesweeper_online/minesweeper/square_tile.dart';
 import 'package:minesweeper_online/models/game_state.dart';
 import 'package:minesweeper_online/models/square.dart';
 import 'package:minesweeper_online/models/square_state_type.dart';
 import 'package:minesweeper_online/models/square_type.dart';
-import 'package:minesweeper_online/square_tile.dart';
 import 'package:minesweeper_online/state/board_state.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 

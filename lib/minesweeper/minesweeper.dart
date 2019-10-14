@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:minesweeper_online/board.dart';
 import 'package:minesweeper_online/helpers/box_decoration.dart';
-import 'package:minesweeper_online/hud.dart';
+import 'package:minesweeper_online/minesweeper/board.dart';
+import 'package:minesweeper_online/minesweeper/hud.dart';
 import 'package:minesweeper_online/models/game_state.dart';
 import 'package:minesweeper_online/services/square_service.dart';
 import 'package:minesweeper_online/state/board_state.dart';
