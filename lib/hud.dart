@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/counter.dart';
 import 'package:minesweeper_online/models/game_state.dart';
+import 'package:minesweeper_online/state/board_state.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 import 'package:minesweeper_online/state/timer_state.dart';
 import 'package:minesweeper_online/timer.dart';
@@ -19,6 +20,7 @@ class Hud extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final board = Provider.of<BoardState>(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
@@ -33,7 +35,7 @@ class Hud extends StatelessWidget {
           children: <Widget>[
             Counter(
               label: 'Mines Remaining',
-              count: gameManager.options.mines,
+              count: gameManager.options.mines - board.service.countFlags(board.boardSquares),
             ),
             Tooltip(
               message: 'Restart Game',

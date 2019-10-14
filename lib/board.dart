@@ -4,88 +4,51 @@ import 'package:minesweeper_online/models/game_state.dart';
 import 'package:minesweeper_online/models/square.dart';
 import 'package:minesweeper_online/models/square_state_type.dart';
 import 'package:minesweeper_online/models/square_type.dart';
-import 'package:minesweeper_online/services/square_service.dart';
 import 'package:minesweeper_online/square_tile.dart';
+import 'package:minesweeper_online/state/board_state.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 
-class Board extends StatefulWidget {
+class Board extends StatelessWidget {
   final GameManagerState gameManager;
-  const Board({Key key, @required this.gameManager}) : super(key: key);
-
-  @override
-  _BoardState createState() => _BoardState();
-}
-
-class _BoardState extends State<Board> {
-  List<Square> boardSquares;
-
-  @override
-  void initState() {
-    super.initState();
-    _resetBoard();
-  }
-
-  void _resetBoard() {
-    boardSquares = SweeperService(options: widget.gameManager.options)
-        .generateBoardSquares();
-  }
-
-  @override
-  void didUpdateWidget(Board oldBoard) {
-    if (widget.gameManager.state == GameState.NotStarted) {
-      _resetBoard();
-    }
-    super.didUpdateWidget(oldBoard);
-  }
+  final BoardState boardState;
+  const Board({Key key, @required this.gameManager, @required this.boardState})
+      : super(key: key);
 
   void markSquare(Square square) {
-    if (widget.gameManager.state == GameState.Ended) return;
+    if (gameManager.state == GameState.Ended) return;
     if (square.state == SquareStateType.Opened) return;
-    SweeperService service = SweeperService(
-      options: widget.gameManager.options,
-    );
-    setState(() {
-      boardSquares = service.toggleSquare(boardSquares, square);
-    });
+    boardState.setBoard(
+        boardState.service.toggleSquare(boardState.boardSquares, square));
   }
 
-  void openSquare(Square square) {
-    if (widget.gameManager.state == GameState.Ended) return;
+  void openSquare(BuildContext context, Square square) {
+    if (gameManager.state == GameState.Ended) return;
     if (square.state == SquareStateType.Opened ||
         square.state == SquareStateType.Flagged ||
         square.state == SquareStateType.Marked) return;
     if (square.type == SquareType.Mine) {
-      revealMine(square);
+      revealMine(context, square);
     } else {
-      revealSquare(square);
+      revealSquare(context, square);
     }
   }
 
-  void revealMine(Square square) {
-    SweeperService service = SweeperService(
-      options: widget.gameManager.options,
-    );
-    if (widget.gameManager.state != GameState.Ended)
-      widget.gameManager.endGame();
-    setState(() {
-      boardSquares = service.revealMines(boardSquares, square);
-    });
-    showMessage(false);
+  void revealMine(BuildContext context, Square square) {
+    if (gameManager.state != GameState.Ended) gameManager.endGame();
+    boardState.setBoard(
+        boardState.service.revealMines(boardState.boardSquares, square));
+    showMessage(context, false);
   }
 
-  void revealSquare(Square square) {
-    SweeperService service = SweeperService(
-      options: widget.gameManager.options,
-    );
-    if (widget.gameManager.state == GameState.NotStarted)
-      widget.gameManager.startGame();
-    setState(() {
-      boardSquares = service.revealSquares(boardSquares, square);
-    });
-    if (service.checkWin(boardSquares)) showMessage(true);
+  void revealSquare(BuildContext context, Square square) {
+    if (gameManager.state == GameState.NotStarted) gameManager.startGame();
+    boardState.setBoard(
+        boardState.service.revealSquares(boardState.boardSquares, square));
+    if (boardState.service.checkWin(boardState.boardSquares))
+      showMessage(context, true);
   }
 
-  void showMessage([bool win = false]) {
+  void showMessage(BuildContext context, [bool win = false]) {
     showDialog(
       context: context,
       builder: (context) {
@@ -95,10 +58,7 @@ class _BoardState extends State<Board> {
           actions: <Widget>[
             FlatButton(
               onPressed: () {
-                setState(() {
-                  _resetBoard();
-                });
-                widget.gameManager.restartGame();
+                gameManager.restartGame();
                 Navigator.pop(context);
               },
               child: Text("Play again"),
@@ -123,19 +83,19 @@ class _BoardState extends State<Board> {
         primary: true,
         physics: NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.all(0.0),
-        crossAxisCount: widget.gameManager.options.dimensions.rows,
+        crossAxisCount: gameManager.options.dimensions.rows,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
         childAspectRatio: 1.0,
         children: List.generate(
-          widget.gameManager.options.dimensions.rows *
-              widget.gameManager.options.dimensions.columns,
+          gameManager.options.dimensions.rows *
+              gameManager.options.dimensions.columns,
           (index) {
-            final square = boardSquares.elementAt(index);
+            final square = boardState.boardSquares.elementAt(index);
             return SquareTile(
               square: square,
               onMark: () => markSquare(square),
-              onOpen: () => openSquare(square),
+              onOpen: () => openSquare(context, square),
             );
           },
         ),
