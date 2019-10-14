@@ -4,7 +4,7 @@ import 'package:minesweeper_online/models/game_options.dart';
 import 'package:minesweeper_online/models/game_state.dart';
 
 class GameManagerState with ChangeNotifier {
-  GameManagerState({@required GameOptions initialOptions}) {
+  GameManagerState({@required GameOptions initialOptions }) {
     _options = initialOptions;
   }
 

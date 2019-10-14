@@ -53,24 +53,27 @@ class Board extends StatelessWidget {
     if (gameManager.state == GameState.NotStarted) gameManager.startGame();
     boardState.setBoard(
         boardState.service.revealSquares(boardState.boardSquares, square));
-    if (boardState.service.checkWin(boardState.boardSquares))
+    if (boardState.service.checkWin(boardState.boardSquares)) {
+      if (gameManager.state != GameState.Ended) gameManager.endGame();
       showMessage(context, true);
+    }
   }
 
   void showMessage(BuildContext context, [bool win = false]) {
+    final textStyle = TextStyle(fontFamily: "Raleway");
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(win ? "Congratulations!" : "Game Over!"),
-          content: Text(win ? "You Win!" : "You stepped on a mine!"),
+          title: Text(win ? "Congratulations!" : "Game Over!", style: textStyle),
+          content: Text(win ? "You Win!" : "You stepped on a mine!", style: textStyle),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 gameManager.restartGame();
                 Navigator.pop(context);
               },
-              child: Text("Play again"),
+              child: Text("Play again", style: textStyle),
             ),
           ],
         );

@@ -21,7 +21,7 @@ class App extends StatelessWidget {
         toggleButtonsTheme: ToggleButtonsThemeData(
           borderColor: const Color(0x2F808080),
           color: const Color(0x1FFFFFFF),
-          selectedBorderColor: const Color(0x6F808080),
+          selectedBorderColor: const Color(0x1F808080),
           fillColor: const Color(0x0FC0C0C0),
         ),
         fontFamily: 'Minesweeper',
