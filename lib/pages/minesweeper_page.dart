@@ -8,21 +8,19 @@ import 'package:provider/provider.dart';
 
 class MinesweeperPage extends StatelessWidget {
   void showInstructions(BuildContext context) {
-    final textStyle = TextStyle(fontFamily: "Raleway");
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Instructions", style: textStyle),
+          title: Text("Instructions"),
           content: Text(
-              "Reveal: Left-click\nFlag: Hold Left-click\nMark: Hold Left-click after flagging\nYellow face/F2: Restart game",
-              style: textStyle),
+              "Reveal: Left-click\nFlag: Hold Left-click\nMark: Hold Left-click after flagging\nYellow face/F2: Restart game"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Close", style: textStyle),
+              child: Text("Close"),
             ),
           ],
         );
@@ -50,8 +48,7 @@ class MinesweeperPage extends StatelessWidget {
               alignment: MainAxisAlignment.center,
               children: <Widget>[
                 OutlineButton(
-                  child: Text('Instructions',
-                      style: TextStyle(fontFamily: 'Raleway')),
+                  child: Text('Instructions'),
                   onPressed: () => showInstructions(context),
                 )
               ],

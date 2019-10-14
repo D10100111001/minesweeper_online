@@ -4,7 +4,7 @@ import 'package:minesweeper_online/models/game_options.dart';
 import 'package:minesweeper_online/models/game_state.dart';
 
 class GameManagerState with ChangeNotifier {
-  GameManagerState({@required GameOptions initialOptions }) {
+  GameManagerState({@required GameOptions initialOptions}) {
     _options = initialOptions;
   }
 
@@ -16,6 +16,9 @@ class GameManagerState with ChangeNotifier {
 
   ThemeMode _mode = kDebugMode ? ThemeMode.dark : ThemeMode.system;
   ThemeMode get mode => _mode;
+
+  bool get won => _state == GameState.Won;
+  bool get ended => _state == GameState.Won || _state == GameState.Loss;
 
   setDarkTheme() {
     _mode = ThemeMode.dark;
@@ -39,9 +42,9 @@ class GameManagerState with ChangeNotifier {
     notifyListeners();
   }
 
-  endGame() {
-    if (_state == GameState.Ended) return;
-    _state = GameState.Ended;
+  endGame([bool win = false]) {
+    if (_state == GameState.Won || _state == GameState.Loss) return;
+    _state = win ? GameState.Won : GameState.Loss;
     notifyListeners();
   }
 

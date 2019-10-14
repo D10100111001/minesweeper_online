@@ -24,7 +24,7 @@ class App extends StatelessWidget {
           selectedBorderColor: const Color(0x1F808080),
           fillColor: const Color(0x0FC0C0C0),
         ),
-        fontFamily: 'Minesweeper',
+        fontFamily: 'Raleway',
       ),
       theme: ThemeData(
         brightness: Brightness.light,
@@ -38,7 +38,7 @@ class App extends StatelessWidget {
           selectedBorderColor: const Color(0xFF808080),
           fillColor: const Color(0xFFC0C0C0),
         ),
-        fontFamily: 'Minesweeper',
+        fontFamily: 'Raleway',
       ),
       home: MinesweeperPage(),
     );

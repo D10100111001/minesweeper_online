@@ -1,5 +1,1 @@
-enum GameState {
-  NotStarted,
-  Started,
-  Ended,
-}
+enum GameState { NotStarted, Started, Loss, Won }

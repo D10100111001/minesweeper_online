@@ -16,7 +16,8 @@ class Hud extends StatelessWidget {
   static const GameStateIconMap = {
     GameState.NotStarted: Icons.sentiment_very_satisfied,
     GameState.Started: Icons.sentiment_satisfied,
-    GameState.Ended: Icons.sentiment_very_dissatisfied
+    GameState.Loss: Icons.sentiment_very_dissatisfied,
+    GameState.Won: Icons.cake,
   };
 
   @override
@@ -27,14 +28,15 @@ class Hud extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
         decoration: BoxDecorationHelper.buildMinesweeperDecoration(
-          themeData.toggleButtonsTheme, true),
+            themeData.toggleButtonsTheme, true),
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Counter(
               label: 'Mines Remaining',
-              count: gameManager.options.mines - board.service.countFlags(board.boardSquares),
+              count: gameManager.options.mines -
+                  board.service.countFlags(board.boardSquares),
             ),
             Tooltip(
               message: 'Restart Game',

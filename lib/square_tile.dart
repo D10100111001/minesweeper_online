@@ -92,7 +92,7 @@ class SquareTile extends StatelessWidget {
           children: <Widget>[
             Text(
               tileText,
-              style: TextStyle(color: testColor),
+              style: TextStyle(color: testColor, fontFamily: 'Minesweeper'),
             ),
           ]..addAll(stackItems),
         ),

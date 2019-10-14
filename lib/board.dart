@@ -16,14 +16,14 @@ class Board extends StatelessWidget {
       : super(key: key);
 
   void markSquare(Square square) {
-    if (gameManager.state == GameState.Ended) return;
+    if (gameManager.ended) return;
     if (square.state == SquareStateType.Opened) return;
     boardState.setBoard(
         boardState.service.toggleSquare(boardState.boardSquares, square));
   }
 
   void openSquare(BuildContext context, Square square) {
-    if (gameManager.state == GameState.Ended) return;
+    if (gameManager.ended) return;
     if (square.state == SquareStateType.Opened ||
         square.state == SquareStateType.Flagged ||
         square.state == SquareStateType.Marked) return;
@@ -43,7 +43,7 @@ class Board extends StatelessWidget {
   }
 
   void revealMine(BuildContext context, Square square) {
-    if (gameManager.state != GameState.Ended) gameManager.endGame();
+    if (!gameManager.ended) gameManager.endGame(false);
     boardState.setBoard(
         boardState.service.revealMines(boardState.boardSquares, square));
     showMessage(context, false);
@@ -54,26 +54,25 @@ class Board extends StatelessWidget {
     boardState.setBoard(
         boardState.service.revealSquares(boardState.boardSquares, square));
     if (boardState.service.checkWin(boardState.boardSquares)) {
-      if (gameManager.state != GameState.Ended) gameManager.endGame();
+      if (!gameManager.ended) gameManager.endGame(true);
       showMessage(context, true);
     }
   }
 
   void showMessage(BuildContext context, [bool win = false]) {
-    final textStyle = TextStyle(fontFamily: "Raleway");
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(win ? "Congratulations!" : "Game Over!", style: textStyle),
-          content: Text(win ? "You Win!" : "You stepped on a mine!", style: textStyle),
+          title: Text(win ? "Congratulations!" : "Game Over!"),
+          content: Text(win ? "You Win!" : "You stepped on a mine!"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 gameManager.restartGame();
                 Navigator.pop(context);
               },
-              child: Text("Play again", style: textStyle),
+              child: Text("Play again"),
             ),
           ],
         );
