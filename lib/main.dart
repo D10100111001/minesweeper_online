@@ -4,7 +4,6 @@ import 'package:minesweeper_online/models/game_options.dart';
 import 'package:minesweeper_online/models/matrix_dimensions.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 import 'package:provider/provider.dart';
-import 'dart:io' show Platform;
 
 void main() => runApp(MyApp());
 

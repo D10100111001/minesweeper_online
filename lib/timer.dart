@@ -19,7 +19,7 @@ class Timer extends StatelessWidget {
           timer.reset();
         } else if (gameManager.state == GameState.Started) {
           timer.start();
-        } else if (gameManager.state == GameState.Ended) {
+        } else if (gameManager.ended) {
           timer.stop();
         }
         return timer;
