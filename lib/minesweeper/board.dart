@@ -94,7 +94,7 @@ class Board extends StatelessWidget {
         primary: true,
         physics: NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.all(0.0),
-        crossAxisCount: gameManager.options.dimensions.rows,
+        crossAxisCount: gameManager.options.dimensions.columns,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
         childAspectRatio: 1.0,

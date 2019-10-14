@@ -185,7 +185,7 @@ class SweeperService {
 
   static MatrixCell indexToCoordinates(int index, int rows, int columns) {
     final column = (index % columns) + 1;
-    final row = ((index + 1) / rows).ceil();
+    final row = ((index + 1) / columns).ceil();
     return MatrixCell(row: row, column: column);
   }
 }

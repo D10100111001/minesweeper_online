@@ -1,21 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:minesweeper_online/models/game_options.dart';
 import 'package:minesweeper_online/models/key_value_pair.dart';
 import 'package:minesweeper_online/models/matrix_cell.dart';
-import 'package:minesweeper_online/models/matrix_dimensions.dart';
 import 'package:minesweeper_online/models/square.dart';
 import 'package:minesweeper_online/services/square_service.dart';
+import 'package:minesweeper_online/state/game_manager_state.dart';
 
 void main() {
   group('Sweeper Service Logic Test', () {
     SweeperService service = SweeperService(
-      options: const GameOptions(
-        dimensions: const MatrixDimensions(
-          rows: 9,
-          columns: 9,
-        ),
-        mines: 10,
-      ),
+      options: GameManagerState.PresetGameOptions[PresetGameOption.Expert],
     );
     List<Square> boardSquares = service.generateBoardSquares();
     test('cell to index conversion is accurate', () {
@@ -38,6 +31,7 @@ void main() {
     });
 
     test('index to cell conversion is accurate', () {
+      final index4 = (service.options.dimensions.rows * 1) + 5;
       final indexMap = [
         KeyValuePair(
           key: service.options.dimensions.columns * 0,
@@ -52,8 +46,10 @@ void main() {
           value: const MatrixCell(row: 1, column: 1),
         ),
         KeyValuePair(
-          key: (service.options.dimensions.rows * 1) + 5,
-          value: const MatrixCell(row: 2, column: 6),
+          key: index4,
+          value: MatrixCell(
+              row: ((index4 + 1) / service.options.dimensions.columns).ceil(),
+              column: (index4 % service.options.dimensions.columns) + 1),
         ),
       ];
       indexMap.forEach((kvp) {

@@ -50,7 +50,22 @@ class MinesweeperPage extends StatelessWidget {
                 OutlineButton(
                   child: Text('Instructions'),
                   onPressed: () => showInstructions(context),
-                )
+                ),
+                OutlineButton(
+                  child: Text('Beginner'),
+                  onPressed: () => gameManager
+                      .setGameOptionPreset(PresetGameOption.Beginner),
+                ),
+                OutlineButton(
+                  child: Text('Intermediate'),
+                  onPressed: () => gameManager
+                      .setGameOptionPreset(PresetGameOption.Intermediate),
+                ),
+                OutlineButton(
+                  child: Text('Expert'),
+                  onPressed: () =>
+                      gameManager.setGameOptionPreset(PresetGameOption.Expert),
+                ),
               ],
             ),
             Minesweeper(

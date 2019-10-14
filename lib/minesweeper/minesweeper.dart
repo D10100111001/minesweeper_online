@@ -24,7 +24,11 @@ class Minesweeper extends StatelessWidget {
             BoardState(service: SweeperService(options: gameManager.options)),
         builder: (_, gameManager, boardState) {
           if (gameManager.state == GameState.NotStarted) {
-            boardState.resetBoard();
+            if (boardState.service.options != gameManager.options)
+              return BoardState(
+                  service: SweeperService(options: gameManager.options));
+            else
+              boardState.resetBoard();
           }
           return boardState;
         },
