@@ -15,8 +15,9 @@ class App extends StatelessWidget {
         brightness: Brightness.dark,
         buttonColor: Colors.yellow,
         primaryColor: Colors.black,
-        textTheme:
-            TextTheme(body2: TextStyle(color: Colors.red.withAlpha(200))),
+        textTheme: TextTheme(
+            body2: TextStyle(
+                color: Colors.red.withAlpha(200), fontFamily: 'Minesweeper')),
         dividerColor: Colors.grey.withAlpha(200),
         toggleButtonsTheme: ToggleButtonsThemeData(
           borderColor: const Color(0x2F808080),
@@ -30,7 +31,9 @@ class App extends StatelessWidget {
         brightness: Brightness.light,
         buttonColor: Colors.yellow,
         primaryColor: Colors.grey,
-        textTheme: TextTheme(body2: TextStyle(color: Colors.red)),
+        textTheme: TextTheme(
+          body2: TextStyle(color: Colors.red, fontFamily: 'Minesweeper'),
+        ),
         dividerColor: Colors.grey[700],
         toggleButtonsTheme: ToggleButtonsThemeData(
           borderColor: const Color(0xFF808080),

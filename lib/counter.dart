@@ -18,7 +18,7 @@ class Counter extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final textStyle = this.color != null
-        ? TextStyle(color: color, fontSize: textTheme.body2.fontSize)
+        ? TextStyle(color: color, fontSize: textTheme.body2.fontSize, fontFamily: 'Minesweeper')
         : textTheme.body2;
     return Tooltip(
       message: this.label,

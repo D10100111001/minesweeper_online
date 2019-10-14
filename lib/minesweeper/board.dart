@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/helpers/box_decoration.dart';
@@ -36,6 +37,7 @@ class Board extends StatelessWidget {
       square = boardSquares[index];
     }
     if (square.type == SquareType.Mine) {
+      //if (kDebugMode) return;
       revealMine(context, square);
     } else {
       revealSquare(context, square);
