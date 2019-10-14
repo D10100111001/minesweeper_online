@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:minesweeper_online/models/game_options.dart';
@@ -44,6 +45,24 @@ class SweeperService {
     final newBoardSquares = List<Square>.from(boardSquares);
     final newSquare = Square.toggle(square);
     newBoardSquares[index] = newSquare;
+    return newBoardSquares;
+  }
+
+  List<Square> moveMine(List<Square> boardSquares, Square square) {
+    if (square.type != SquareType.Mine) return boardSquares;
+    final index = coordinateToIndex(square.cell);
+    final newBoardSquares = List<Square>.from(boardSquares);
+    final newSquare = Square.setToEmpty(square);
+    newBoardSquares[index] = newSquare;
+    final rng = new Random();
+    while (true) {
+      int randomSquare = rng.nextInt(boardSquares.length);
+      final square = newBoardSquares[randomSquare];
+      if (square.type == SquareType.Empty) {
+        newBoardSquares[randomSquare] = Square.setToMine(square);
+        break;
+      }
+    }
     return newBoardSquares;
   }
 
@@ -104,6 +123,11 @@ class SweeperService {
         0,
         (sum, square) =>
             sum + (square.state == SquareStateType.Flagged ? 1 : 0));
+  }
+
+  int countMines(List<Square> boardSquares) {
+    return boardSquares.fold(
+        0, (sum, square) => sum + (square.type == SquareType.Mine ? 1 : 0));
   }
 
   bool shouldRevealSquare(Square square) {

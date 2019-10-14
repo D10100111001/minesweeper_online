@@ -16,6 +16,15 @@ class Square {
       this.state = SquareStateType.Closed,
       this.adjacentMines = 0});
 
+  factory Square.setToEmpty(Square square) {
+    return Square(
+      cell: square.cell,
+      type: SquareType.Empty,
+      state: square.state,
+      adjacentMines: square.adjacentMines,
+    );
+  }
+
   factory Square.setToMine(Square square) {
     return Square(
       cell: square.cell,

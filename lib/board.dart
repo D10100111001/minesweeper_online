@@ -26,6 +26,14 @@ class Board extends StatelessWidget {
     if (square.state == SquareStateType.Opened ||
         square.state == SquareStateType.Flagged ||
         square.state == SquareStateType.Marked) return;
+    if (square.type == SquareType.Mine &&
+        gameManager.state == GameState.NotStarted) {
+      final index = boardState.service.coordinateToIndex(square.cell);
+      final boardSquares =
+          boardState.service.moveMine(boardState.boardSquares, square);
+      boardState.setBoard(boardSquares);
+      square = boardSquares[index];
+    }
     if (square.type == SquareType.Mine) {
       revealMine(context, square);
     } else {

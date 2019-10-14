@@ -100,7 +100,8 @@ class SquareTile extends StatelessWidget {
     }
     return buildTileBorder(
         square.state == SquareStateType.Opened ||
-            square.state == SquareStateType.WrongFlagged,
+            square.state == SquareStateType.WrongFlagged ||
+            square.state == SquareStateType.TriggerMine,
         Stack(
           alignment: AlignmentDirectional.center,
           children: <Widget>[
