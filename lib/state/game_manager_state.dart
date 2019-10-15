@@ -7,8 +7,11 @@ import 'package:minesweeper_online/models/matrix_dimensions.dart';
 enum PresetGameOption { Beginner, Intermediate, Expert }
 
 class GameManagerState with ChangeNotifier {
-  GameManagerState({@required GameOptions initialOptions}) {
+  GameManagerState(
+      {@required GameOptions initialOptions, @required bool isDarkMode}) {
     _options = initialOptions;
+    if (isDarkMode != null)
+      _mode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
   }
 
   GameOptions _options;
@@ -25,11 +28,13 @@ class GameManagerState with ChangeNotifier {
 
   setDarkTheme() {
     _mode = ThemeMode.dark;
+    //StorageService().setVal("isDarkMode", true.toString());
     notifyListeners();
   }
 
   setLightTheme() {
     _mode = ThemeMode.light;
+    //StorageService().setVal("isDarkMode", false.toString());
     notifyListeners();
   }
 
@@ -67,6 +72,8 @@ class GameManagerState with ChangeNotifier {
   };
 
   setGameOptionPreset(PresetGameOption presetGameOption) {
+    //StorageService()
+        //.setVal("defaultGameMode", presetGameOption.toString().split('.')[1]);
     setGameOptions(PresetGameOptions[presetGameOption]);
   }
 

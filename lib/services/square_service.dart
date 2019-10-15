@@ -21,7 +21,7 @@ class SweeperService {
             index, options.dimensions.rows, options.dimensions.columns),
       ),
     );
-    var randomized = List<Square>.from(squares)..shuffle();
+    var randomized = List.of(squares)..shuffle();
     var selectedSquares = randomized.take(options.mines);
     var minedSquares =
         selectedSquares.map((square) => Square.setToMine(square));
@@ -42,7 +42,7 @@ class SweeperService {
 
   List<Square> toggleSquare(List<Square> boardSquares, Square square) {
     final index = coordinateToIndex(square.cell);
-    final newBoardSquares = List<Square>.from(boardSquares);
+    final newBoardSquares = List.of(boardSquares);
     final newSquare = Square.toggle(square);
     newBoardSquares[index] = newSquare;
     return newBoardSquares;
@@ -51,7 +51,7 @@ class SweeperService {
   List<Square> moveMine(List<Square> boardSquares, Square square) {
     if (square.type != SquareType.Mine) return boardSquares;
     final index = coordinateToIndex(square.cell);
-    final newBoardSquares = List<Square>.from(boardSquares);
+    final newBoardSquares = List.of(boardSquares);
     final newSquare = Square.setToEmpty(square);
     newBoardSquares[index] = newSquare;
     final rng = new Random();

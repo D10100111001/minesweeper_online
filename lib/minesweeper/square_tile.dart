@@ -96,7 +96,8 @@ class SquareTile extends StatelessWidget {
                   color: testColor,
                   fontFamily: themeData.textTheme.body2.fontFamily),
             ),
-          ]..addAll(stackItems),
+            ...stackItems,
+          ],
         ),
         toggleThemeData);
   }
