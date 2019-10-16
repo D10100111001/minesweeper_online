@@ -21,9 +21,9 @@ class GameManagerState with ChangeNotifier {
   bool get playTestMode => _playTestMode;
   bool _offlineMode = false;
   bool get offlineMode => _offlineMode;
-  bool _isFirstSafeMove = false;
+  bool _isFirstSafeMove = true;
   bool get isFirstSafeMove => _isFirstSafeMove;
-  bool _openingMoveMode = false;
+  bool _openingMoveMode = true;
   bool get openingMoveMode => _openingMoveMode;
 
   GameOptions _options;
