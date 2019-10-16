@@ -48,7 +48,8 @@ class SweeperService {
     return newBoardSquares;
   }
 
-  List<Square> moveMine(List<Square> boardSquares, Square square) {
+  List<Square> moveMine(List<Square> boardSquares, Square square,
+      [List<int> excludedIndexes]) {
     if (square.type != SquareType.Mine) return boardSquares;
     final index = coordinateToIndex(square.cell);
     final newBoardSquares = List.of(boardSquares);
@@ -56,14 +57,34 @@ class SweeperService {
     newBoardSquares[index] = newSquare;
     final rng = new Random();
     while (true) {
-      int randomSquare = rng.nextInt(boardSquares.length);
+      int randomSquare;
+      do {
+        randomSquare = rng.nextInt(boardSquares.length);
+      } while (
+          excludedIndexes != null && excludedIndexes.contains(randomSquare));
+
       final square = newBoardSquares[randomSquare];
       if (square.type == SquareType.Empty) {
         newBoardSquares[randomSquare] = Square.setToMine(square);
         break;
       }
     }
-    return newBoardSquares;
+    final finalSquares = newBoardSquares
+        .map((square) => Square.setAdjacentMines(
+            square, countNighboringMines(newBoardSquares, square)))
+        .toList();
+    return finalSquares;
+  }
+
+  List<Square> clearNeighbors(List<Square> boardSquares, Square square) {
+    final neighbors = square.adjacentMines == 0
+        ? <Square>[]
+        : findNeighbors(boardSquares, square);
+    final allSquares = neighbors..add(square);
+    final allIndexes =
+        allSquares.map((square) => coordinateToIndex(square.cell)).toList();
+    return allSquares.fold(boardSquares,
+        (squares, square) => moveMine(squares, square, allIndexes));
   }
 
   List<Square> revealMines(List<Square> boardSquares, Square trigerSquare) {

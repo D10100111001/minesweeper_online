@@ -15,6 +15,7 @@ class BoardState with ChangeNotifier {
   bool get isPristine => _isPristine;
 
   setBoard(List<Square> newBoardSquares) {
+    if (_boardSquares == newBoardSquares) return;
     _boardSquares = newBoardSquares;
     _isPristine = false;
     notifyListeners();

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/minesweeper/minesweeper.dart';
 import 'package:minesweeper_online/page.dart';
+import 'package:minesweeper_online/responsive_widget.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,33 @@ class MinesweeperPage extends StatelessWidget {
     );
   }
 
+  Widget createOptionsBooleanListItem(BuildContext context, IconData icon, String title,
+      String description, bool val, Function onChange) {
+    return SizedBox(
+      width: 600.0,
+      child: MergeSemantics(
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+          title: Text(
+            title,
+            textAlign: TextAlign.left,
+          ),
+          subtitle: Text(
+            description,
+            textAlign: TextAlign.left,
+          ),
+          leading: Icon(icon),
+          trailing: CupertinoSwitch(
+            activeColor: Colors.green,
+            value: val,
+            onChanged: (_) => onChange,
+          ),
+          onTap: onChange,
+        ),
+      ),
+    );
+  }
+
   void showOptionsDialog(BuildContext context, GameManagerState gameManager) {
     showDialog(
       context: context,
@@ -39,46 +67,36 @@ class MinesweeperPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                width: 400.0,
-                child: MergeSemantics(
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                    title: Text(
-                      'Play-test',
-                      textAlign: TextAlign.left,
-                    ),
-                    leading: Icon(Icons.settings),
-                    trailing: CupertinoSwitch(
-                      activeColor: Colors.green,
-                      value: gameManager.playTestMode,
-                      onChanged: (value) => gameManager.setPlayTestMode(value),
-                    ),
-                    onTap: () =>
-                        gameManager.setPlayTestMode(!gameManager.playTestMode),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 400.0,
-                child: MergeSemantics(
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                    title: Text(
-                      'Offline Mode',
-                      textAlign: TextAlign.left,
-                    ),
-                    leading: Icon(Icons.cloud_off),
-                    trailing: CupertinoSwitch(
-                      activeColor: Colors.green,
-                      value: gameManager.offlineMode,
-                      onChanged: (value) => gameManager.setOfflineMode(value),
-                    ),
-                    onTap: () =>
-                        gameManager.setOfflineMode(!gameManager.offlineMode),
-                  ),
-                ),
-              ),
+              createOptionsBooleanListItem(
+                  context,
+                  Icons.settings,
+                  'Play-test',
+                  'Show the contents of all unopened cells. Scores do not count towards high scores, and the Opening Move and Free Safe Move options do not apply.',
+                  gameManager.playTestMode,
+                  () => gameManager.setPlayTestMode(!gameManager.playTestMode)),
+              createOptionsBooleanListItem(
+                  context,
+                  Icons.cloud_off,
+                  'Offline Mode',
+                  'Scores do not count towards high scores.',
+                  gameManager.offlineMode,
+                  () => gameManager.setOfflineMode(!gameManager.offlineMode)),
+              createOptionsBooleanListItem(
+                  context,
+                  Icons.outlined_flag,
+                  'Free Safe Move',
+                  'The first move/square will never be a bomb. It is a free and safe move.',
+                  gameManager.isFirstSafeMove,
+                  () => gameManager
+                      .setIsFirstSafeMove(!gameManager.isFirstSafeMove)),
+              createOptionsBooleanListItem(
+                  context,
+                  Icons.open_with,
+                  'Opening Move',
+                  'Not only will the first square never be a bomb, but neither will any of the neighbors.',
+                  gameManager.openingMoveMode,
+                  () =>
+                      gameManager.setOpeningMove(!gameManager.openingMoveMode)),
             ],
           ),
           actions: <Widget>[
@@ -135,7 +153,9 @@ class MinesweeperPage extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(height: 15.0,),
+          SizedBox(
+            height: 15.0,
+          ),
           Minesweeper(
             gameManager: gameManager,
           ),

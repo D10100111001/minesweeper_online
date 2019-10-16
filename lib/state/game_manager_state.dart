@@ -21,6 +21,10 @@ class GameManagerState with ChangeNotifier {
   bool get playTestMode => _playTestMode;
   bool _offlineMode = false;
   bool get offlineMode => _offlineMode;
+  bool _isFirstSafeMove = false;
+  bool get isFirstSafeMove => _isFirstSafeMove;
+  bool _openingMoveMode = false;
+  bool get openingMoveMode => _openingMoveMode;
 
   GameOptions _options;
   GameOptions get options => _options;
@@ -81,19 +85,43 @@ class GameManagerState with ChangeNotifier {
 
   setGameOptionPreset(PresetGameOption presetGameOption) {
     //StorageService()
-        //.setVal("defaultGameMode", presetGameOption.toString().split('.')[1]);
+    //.setVal("defaultGameMode", presetGameOption.toString().split('.')[1]);
     setGameOptions(PresetGameOptions[presetGameOption]);
   }
 
   setPlayTestMode([bool enabled = true]) {
     _playTestMode = enabled;
-    if (_playTestMode) _offlineMode = true;
+    if (_playTestMode) {
+      _offlineMode = true;
+      if (!kDebugMode) {
+        _openingMoveMode = false;
+        _isFirstSafeMove = false;
+      }
+    }
     restartGame(true);
   }
 
   setOfflineMode([bool enabled = true]) {
     _offlineMode = enabled;
     if (!_offlineMode) _playTestMode = false;
+    restartGame(true);
+  }
+
+  setIsFirstSafeMove([bool enabled = true]) {
+    _isFirstSafeMove = enabled;
+    if (_isFirstSafeMove)
+      _playTestMode = false;
+    else
+      _openingMoveMode = false;
+    restartGame(true);
+  }
+
+  setOpeningMove([bool enabled = true]) {
+    _openingMoveMode = enabled;
+    if (_openingMoveMode) {
+      _playTestMode = false;
+      _isFirstSafeMove = true;
+    }
     restartGame(true);
   }
 

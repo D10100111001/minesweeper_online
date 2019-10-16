@@ -32,13 +32,22 @@ class Board extends StatelessWidget {
     if (square.state == SquareStateType.Opened ||
         square.state == SquareStateType.Flagged ||
         square.state == SquareStateType.Marked) return;
-    if (square.type == SquareType.Mine &&
-        gameManager.state == GameState.NotStarted) {
-      final index = boardState.service.coordinateToIndex(square.cell);
-      final boardSquares =
-          boardState.service.moveMine(boardState.boardSquares, square);
-      boardState.setBoard(boardSquares);
-      square = boardSquares[index];
+    if (gameManager.state == GameState.NotStarted) {
+      int index;
+      List<Square> boardSquares;
+      if (gameManager.openingMoveMode) {
+        index = boardState.service.coordinateToIndex(square.cell);
+        boardSquares =
+            boardState.service.clearNeighbors(boardState.boardSquares, square);
+      } else if (gameManager.isFirstSafeMove) {
+        index = boardState.service.coordinateToIndex(square.cell);
+        boardSquares =
+            boardState.service.moveMine(boardState.boardSquares, square);
+      }
+      if (boardSquares != null && index != null) {
+        boardState.setBoard(boardSquares);
+        square = boardSquares[index];
+      }
     }
     GameAudioService.playTrack(GameAudioTrack.Click);
     if (square.type == SquareType.Mine) {
@@ -51,7 +60,9 @@ class Board extends StatelessWidget {
   void revealMine(BuildContext context, Square square) {
     GameAudioService.playTrack(GameAudioTrack.Explode);
     if (!gameManager.ended) gameManager.endGame(false);
-    if (boardState.service.checkSquaresRemaining(boardState.boardSquares) - boardState.service.options.mines <= (boardState.service.totalSquares * 0.05).ceil())
+    if (boardState.service.checkSquaresRemaining(boardState.boardSquares) -
+            boardState.service.options.mines <=
+        (boardState.service.totalSquares * 0.05).ceil())
       GameAudioService.playTrack(GameAudioTrack.Lose);
     boardState.setBoard(
         boardState.service.revealMines(boardState.boardSquares, square));
@@ -61,15 +72,18 @@ class Board extends StatelessWidget {
   void revealSquare(BuildContext context, Square square) {
     if (gameManager.state == GameState.NotStarted) gameManager.startGame();
     final oldBoardSate = boardState.boardSquares;
-    final newBoardState = boardState.service.revealSquares(boardState.boardSquares, square);
+    final newBoardState =
+        boardState.service.revealSquares(boardState.boardSquares, square);
     boardState.setBoard(newBoardState);
     if (boardState.service.checkWin(boardState.boardSquares)) {
       if (!gameManager.ended) gameManager.endGame(true);
       showMessage(context, true);
       GameAudioService.playTrack(GameAudioTrack.Win);
     } else {
-      final squaresRemainingOld = boardState.service.checkSquaresRemaining(oldBoardSate);
-      final squaresRemainingNew = boardState.service.checkSquaresRemaining(newBoardState);
+      final squaresRemainingOld =
+          boardState.service.checkSquaresRemaining(oldBoardSate);
+      final squaresRemainingNew =
+          boardState.service.checkSquaresRemaining(newBoardState);
       if ((squaresRemainingOld - squaresRemainingNew) > 1) {
         GameAudioService.playTrack(GameAudioTrack.Opening);
       }
