@@ -7,10 +7,14 @@ import 'package:minesweeper_online/models/square_type.dart';
 
 class SquareTile extends StatelessWidget {
   final Square square;
+  final bool showContents;
   final Function onOpen;
   final Function onMark;
   const SquareTile(
-      {@required this.square, @required this.onOpen, @required this.onMark});
+      {@required this.square,
+      @required this.onOpen,
+      @required this.onMark,
+      this.showContents});
 
   Widget buildTileBorder(
       bool opened, Widget child, ToggleButtonsThemeData themeData) {
@@ -57,6 +61,8 @@ class SquareTile extends StatelessWidget {
         continue closed;
       closed:
       case SquareStateType.Closed:
+        if (showContents && tileText == "")
+          continue opened;
         break;
       case SquareStateType.WrongFlagged:
         stackItems.add(

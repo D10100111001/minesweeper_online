@@ -30,35 +30,52 @@ class Hud extends StatelessWidget {
         decoration: BoxDecorationHelper.buildMinesweeperDecoration(
             themeData.toggleButtonsTheme, true),
         padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Counter(
-              label: 'Mines Remaining',
-              count: gameManager.options.mines -
-                  board.service.countFlags(board.boardSquares),
-            ),
-            Tooltip(
-              message: 'Restart Game',
-              child: IconButton(
-                icon: Icon(GameStateIconMap[gameManager.state]),
-                color: Theme.of(context).buttonColor,
-                onPressed: () => gameManager.restartGame(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Counter(
+                label: 'Mines Remaining',
+                count: gameManager.options.mines -
+                    board.service.countFlags(board.boardSquares),
               ),
-            ),
-            Timer(
-              countDown: false,
-              child: Builder(
-                builder: (context) {
-                  final timerState = Provider.of<TimerState>(context);
-                  return Counter(
-                    label: 'Seconds Elapsed',
-                    count: timerState.time,
-                  );
-                },
+              Tooltip(
+                message: 'Restart Game',
+                child: SizedBox(
+                  height: 32.0,
+                  width: 32.0,
+                  child: DecoratedBox(
+                    decoration: BoxDecorationHelper.buildMinesweeperDecoration(
+                        themeData.toggleButtonsTheme),
+                    child: InkWell(
+                      canRequestFocus: false,
+                      child: Center(
+                        child: ClipOval(
+                          child: Container(
+                              color: Theme.of(context).buttonColor,
+                              child: Icon(GameStateIconMap[gameManager.state])),
+                        ),
+                      ),
+                      onTap: () => gameManager.restartGame(),
+                    ),
+                  ),
+                ),
               ),
-            )
-          ],
+              Timer(
+                countDown: false,
+                child: Builder(
+                  builder: (context) {
+                    final timerState = Provider.of<TimerState>(context);
+                    return Counter(
+                      label: 'Seconds Elapsed',
+                      count: timerState.time,
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

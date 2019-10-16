@@ -14,6 +14,14 @@ class GameManagerState with ChangeNotifier {
       _mode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
   }
 
+  bool _audioMuted = true;
+  bool get audioMuted => _audioMuted;
+
+  bool _playTestMode = false;
+  bool get playTestMode => _playTestMode;
+  bool _offlineMode = false;
+  bool get offlineMode => _offlineMode;
+
   GameOptions _options;
   GameOptions get options => _options;
 
@@ -38,8 +46,8 @@ class GameManagerState with ChangeNotifier {
     notifyListeners();
   }
 
-  restartGame() {
-    if (_state == GameState.NotStarted) return;
+  restartGame([force = false]) {
+    if (_state == GameState.NotStarted && !force) return;
     _state = GameState.NotStarted;
     notifyListeners();
   }
@@ -75,6 +83,33 @@ class GameManagerState with ChangeNotifier {
     //StorageService()
         //.setVal("defaultGameMode", presetGameOption.toString().split('.')[1]);
     setGameOptions(PresetGameOptions[presetGameOption]);
+  }
+
+  setPlayTestMode([bool enabled = true]) {
+    _playTestMode = enabled;
+    if (_playTestMode) _offlineMode = true;
+    restartGame(true);
+  }
+
+  setOfflineMode([bool enabled = true]) {
+    _offlineMode = enabled;
+    if (!_offlineMode) _playTestMode = false;
+    restartGame(true);
+  }
+
+  muteAudio() {
+    _audioMuted = true;
+    notifyListeners();
+  }
+
+  unMuteAudio() {
+    _audioMuted = false;
+    notifyListeners();
+  }
+
+  toggleAudio() {
+    _audioMuted = !_audioMuted;
+    notifyListeners();
   }
 
   setGameOptionParams(int rows, int columns, int mines) {

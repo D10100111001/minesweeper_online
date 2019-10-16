@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class BoxDecorationHelper {
-  static buildMinesweeperDecoration(ToggleButtonsThemeData themeData,
+  static BoxDecoration buildMinesweeperDecoration(ToggleButtonsThemeData themeData,
       [bool reverse = false]) {
     final side1 = BorderSide(
       color: reverse ? themeData.borderColor : themeData.color,

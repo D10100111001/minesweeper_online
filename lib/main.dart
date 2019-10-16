@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:minesweeper_online/app.dart';
 import 'package:minesweeper_online/models/game_storage_settings.dart';
+import 'package:minesweeper_online/services/audio_service.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //final gameStorage = await GameStorage.getFromStorage();
+  await GameAudioService.init();
   runApp(MyApp(gameStorage: null));
 }
 
@@ -18,9 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<GameStorage>.value(value: gameStorage),
-        ChangeNotifierProvider<GameManagerState>.value(
-          value: GameManagerState(
+        Provider<GameStorage>(builder: (_) => gameStorage),
+        ChangeNotifierProvider<GameManagerState>(
+          builder: (_) => GameManagerState(
               initialOptions: GameManagerState.PresetGameOptions[
                   gameStorage?.defaultGameMode ?? PresetGameOption.Beginner],
               isDarkMode: gameStorage?.isDarkMode),

@@ -15,7 +15,7 @@ class SweeperService {
 
   List<Square> generateBoardSquares() {
     final squares = List.generate(
-      options.dimensions.rows * options.dimensions.columns,
+      totalSquares,
       (index) => Square(
         cell: SweeperService.indexToCoordinates(
             index, options.dimensions.rows, options.dimensions.columns),
@@ -83,14 +83,19 @@ class SweeperService {
     }).toList();
   }
 
-  bool checkWin(List<Square> boardSquares) {
-    final totalSquares = options.dimensions.rows * options.dimensions.columns;
+  int get totalSquares => options.dimensions.total;
+
+  int checkSquaresRemaining(List<Square> boardSquares) {
     final openedSquares = boardSquares
         .where((square) =>
             square.type == SquareType.Empty &&
             square.state == SquareStateType.Opened)
         .length;
-    final squaresRemaining = totalSquares - openedSquares;
+    return totalSquares - openedSquares;
+  }
+
+  bool checkWin(List<Square> boardSquares) {
+    final squaresRemaining = checkSquaresRemaining(boardSquares);
     return squaresRemaining <= options.mines;
   }
 

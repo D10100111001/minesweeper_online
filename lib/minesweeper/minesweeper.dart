@@ -27,7 +27,7 @@ class Minesweeper extends StatelessWidget {
             if (boardState.service.options != gameManager.options)
               return BoardState(
                   service: SweeperService(options: gameManager.options));
-            else
+            else if (!boardState.isPristine)
               boardState.resetBoard();
           }
           return boardState;
