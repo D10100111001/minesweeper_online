@@ -11,7 +11,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>minesweeper_online</string>
+	<string>Minesweeper</string>
+	<key>CFBundleDisplayName</key>
+	<string>Minesweeper Online</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
