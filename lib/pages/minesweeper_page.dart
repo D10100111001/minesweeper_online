@@ -85,7 +85,7 @@ class MinesweeperPage extends StatelessWidget {
                   context,
                   Icons.outlined_flag,
                   'Free Safe Move',
-                  'The first move/square will never be a bomb. It is a free and safe move.',
+                  'The first move/square will never be a mine. It is a free and safe move.',
                   gameManager.isFirstSafeMove,
                   () => gameManager
                       .setIsFirstSafeMove(!gameManager.isFirstSafeMove)),
@@ -93,7 +93,7 @@ class MinesweeperPage extends StatelessWidget {
                   context,
                   Icons.open_with,
                   'Opening Move',
-                  'Not only will the first square never be a bomb, but neither will any of the neighbors.',
+                  'Not only will the first square never be a mine, but neither will any of the neighbors.',
                   gameManager.openingMoveMode,
                   () =>
                       gameManager.setOpeningMove(!gameManager.openingMoveMode)),

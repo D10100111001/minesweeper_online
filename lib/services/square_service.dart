@@ -21,11 +21,11 @@ class SweeperService {
             index, options.dimensions.rows, options.dimensions.columns),
       ),
     );
-    var randomized = List.of(squares)..shuffle();
-    var selectedSquares = randomized.take(options.mines);
-    var minedSquares =
+    final randomized = List.of(squares)..shuffle();
+    final selectedSquares = randomized.take(options.mines);
+    final minedSquares =
         selectedSquares.map((square) => Square.setToMine(square));
-    var minesSquareMap = Map<int, Square>.fromIterable(minedSquares,
+    final minesSquareMap = Map<int, Square>.fromIterable(minedSquares,
         key: (square) => coordinateToIndex(square.cell));
     final finalSquares = squares
         .asMap()

@@ -12,4 +12,4 @@
   command = "if cd flutter; then git pull && cd ..; else git clone https://github.com/flutter/flutter.git; fi && flutter/bin/flutter config --enable-web && flutter/bin/flutter build web"
 
   # Directory with the serverless Lambda functions to deploy to AWS.
-  #functions = "functions/dist"
+  functions = "functions/dist"
