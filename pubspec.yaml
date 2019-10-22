@@ -10,25 +10,25 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_context_menu_web:
+    git: https://github.com/D10100111001/flutter_context_menu_web
   # flutter_local_storage:
   #   git: https://github.com/D10100111001/flutter_local_storage
   provider: ^3.1.0
-  shared_preferences: ^0.5.3+4
+  hive: ^1.1.1
+  hive_flutter: ^0.2.1
   audioplayers: ^0.13.2
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^0.5.2
+  build_runner: ^1.7.2
 
 
 flutter:
   uses-material-design: true
-
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
 
   assets:
     - assets/click.mp3

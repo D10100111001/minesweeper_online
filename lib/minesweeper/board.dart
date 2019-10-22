@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,7 +21,7 @@ class Board extends StatelessWidget {
     if (gameManager.ended) return;
     if (square.state == SquareStateType.Opened) return;
     if (square.state == SquareStateType.Closed)
-      GameAudioService.playTrack(GameAudioTrack.Flag);
+      playTrack(GameAudioTrack.Flag);
     boardState.setBoard(
         boardState.service.toggleSquare(boardState.boardSquares, square));
   }
@@ -49,7 +48,7 @@ class Board extends StatelessWidget {
         square = boardSquares[index];
       }
     }
-    GameAudioService.playTrack(GameAudioTrack.Click);
+    playTrack(GameAudioTrack.Click);
     if (square.type == SquareType.Mine) {
       revealMine(context, square);
     } else {
@@ -58,12 +57,12 @@ class Board extends StatelessWidget {
   }
 
   void revealMine(BuildContext context, Square square) {
-    GameAudioService.playTrack(GameAudioTrack.Explode);
+    playTrack(GameAudioTrack.Explode);
     if (!gameManager.ended) gameManager.endGame(false);
     if (boardState.service.checkSquaresRemaining(boardState.boardSquares) -
             boardState.service.options.mines <=
         (boardState.service.totalSquares * 0.05).ceil())
-      GameAudioService.playTrack(GameAudioTrack.Lose);
+      playTrack(GameAudioTrack.Lose);
     boardState.setBoard(
         boardState.service.revealMines(boardState.boardSquares, square));
     showMessage(context, false);
@@ -78,15 +77,21 @@ class Board extends StatelessWidget {
     if (boardState.service.checkWin(boardState.boardSquares)) {
       if (!gameManager.ended) gameManager.endGame(true);
       showMessage(context, true);
-      GameAudioService.playTrack(GameAudioTrack.Win);
+      playTrack(GameAudioTrack.Win);
     } else {
       final squaresRemainingOld =
           boardState.service.checkSquaresRemaining(oldBoardSate);
       final squaresRemainingNew =
           boardState.service.checkSquaresRemaining(newBoardState);
       if ((squaresRemainingOld - squaresRemainingNew) > 1) {
-        GameAudioService.playTrack(GameAudioTrack.Opening);
+        playTrack(GameAudioTrack.Opening);
       }
+    }
+  }
+
+  void playTrack(GameAudioTrack track) {
+    if (!gameManager.audioMuted) {
+      GameAudioService.playTrack(track);
     }
   }
 

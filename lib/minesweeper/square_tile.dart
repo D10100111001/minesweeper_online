@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_context_menu_web/context_menu.dart';
 import 'package:minesweeper_online/helpers/box_decoration.dart';
 import 'package:minesweeper_online/models/square.dart';
 import 'package:minesweeper_online/models/square_state_type.dart';
@@ -36,12 +37,28 @@ class SquareTile extends StatelessWidget {
       width: 16.0,
       child: DecoratedBox(
         decoration: decoration,
-        child: InkWell(
-          child: Center(
-            child: child,
+        child: MouseRegion(
+          onEnter: (e) {
+            print('roll over');
+          },
+          onExit: (e) {
+            print('roll out');
+          },
+          child: Listener(
+            onPointerDown: (e) {
+              if (e.buttons == 2) {
+                toggleDefaultContextMenu(false);
+                onMark();
+              }
+            },
+            child: InkWell(
+              child: Center(
+                child: child,
+              ),
+              onTap: onOpen,
+              onLongPress: onMark,
+            ),
           ),
-          onTap: onOpen,
-          onLongPress: onMark,
         ),
       ),
     );
@@ -61,8 +78,7 @@ class SquareTile extends StatelessWidget {
         continue closed;
       closed:
       case SquareStateType.Closed:
-        if (showContents && tileText == "")
-          continue opened;
+        if (showContents && tileText == "") continue opened;
         break;
       case SquareStateType.WrongFlagged:
         stackItems.add(
