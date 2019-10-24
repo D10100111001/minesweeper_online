@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:minesweeper_online/is_browser/main.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:minesweeper_online/app.dart';
 import 'package:minesweeper_online/models/game_settings.dart';
@@ -7,7 +8,6 @@ import 'package:minesweeper_online/services/audio_service.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 import 'package:provider/provider.dart';
 
-import 'is_browser/main.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
