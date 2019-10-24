@@ -4,12 +4,11 @@ import 'package:minesweeper_online/pages/minesweeper_page.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 import 'package:provider/provider.dart';
 
-class App extends StatelessWidget {
+class MinesweeperApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gameManager = Provider.of<GameManagerState>(context);
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       themeMode: gameManager.mode,
       darkTheme: ThemeData(
         brightness: Brightness.dark,

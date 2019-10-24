@@ -20,8 +20,9 @@ class Board extends StatelessWidget {
   void markSquare(Square square) {
     if (gameManager.ended) return;
     if (square.state == SquareStateType.Opened) return;
-    if (square.state == SquareStateType.Closed)
-      playTrack(GameAudioTrack.Flag);
+    if (gameManager.state == GameState.NotStarted) gameManager.startGame();
+    if (square.state == SquareStateType.Closed) playTrack(GameAudioTrack.Flag);
+
     boardState.setBoard(
         boardState.service.toggleSquare(boardState.boardSquares, square));
   }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/minesweeper/minesweeper.dart';
 import 'package:minesweeper_online/page.dart';
-import 'package:minesweeper_online/responsive_widget.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +14,7 @@ class MinesweeperPage extends StatelessWidget {
         return AlertDialog(
           title: Text("Instructions"),
           content: Text(
-              "Reveal: Left-click\nFlag: Hold Left-click\nMark: Hold Left-click after flagging\nYellow smiley: Restart game"),
+              "Desktop:\nReveal: Left-click\nFlag: Right-click\nMark: Right-click after flagging\n\bMobile:\nReveal: Tap\nFlag: Long-tap\nMark: Long-tap after flagging\n\nYellow smiley: Restart game"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
@@ -29,8 +28,8 @@ class MinesweeperPage extends StatelessWidget {
     );
   }
 
-  Widget createOptionsBooleanListItem(BuildContext context, IconData icon, String title,
-      String description, bool val, Function onChange) {
+  Widget createOptionsBooleanListItem(BuildContext context, IconData icon,
+      String title, String description, bool val, Function onChange) {
     return SizedBox(
       width: 600.0,
       child: MergeSemantics(

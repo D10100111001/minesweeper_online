@@ -1,25 +1,31 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+import 'package:minesweeper_online/helpers/parsers.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 
-@HiveType()
-class GameSettings extends HiveObject {
-
-  @HiveField(0)
+class GameSettings {
   final bool isDarkMode;
-  @HiveField(1)
   final PresetGameOption defaultGameMode;
-  @HiveField(2)
+  final bool audioMuted;
   final bool isOnline;
-  @HiveField(3)
   final String boardId;
   GameSettings(
       {@required this.isDarkMode,
       @required this.defaultGameMode,
+      @required this.audioMuted,
       @required this.isOnline,
       @required this.boardId});
 
-  load() async  {
-    
+  factory GameSettings.load(Box box) {
+    final isDarkMode = box.get('isDarkMode') as bool;
+    final presetGameOption = ParserUtility.toEnum(
+        PresetGameOption.values, box.get('presetGameOption'));
+    final audioMuted = box.get('isAudioMuted') as bool;
+    return GameSettings(
+        isDarkMode: isDarkMode,
+        defaultGameMode: presetGameOption,
+        audioMuted: audioMuted,
+        isOnline: true,
+        boardId: null);
   }
 }

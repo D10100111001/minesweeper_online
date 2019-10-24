@@ -1,17 +1,30 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:minesweeper_online/helpers/parsers.dart';
 import 'package:minesweeper_online/models/game_options.dart';
+import 'package:minesweeper_online/models/game_settings.dart';
 import 'package:minesweeper_online/models/game_state.dart';
 import 'package:minesweeper_online/models/matrix_dimensions.dart';
 
 enum PresetGameOption { Beginner, Intermediate, Expert }
 
 class GameManagerState with ChangeNotifier {
-  GameManagerState(
-      {@required GameOptions initialOptions, @required bool isDarkMode}) {
-    _options = initialOptions;
-    if (isDarkMode != null)
-      _mode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+  GameManagerState({@required GameSettings initialSettings}) {
+    _options = GameManagerState.PresetGameOptions[
+        initialSettings?.defaultGameMode ?? PresetGameOption.Beginner];
+    if (initialSettings?.isDarkMode != null) {
+      _mode = initialSettings.isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    }
+    if (initialSettings?.audioMuted != null) {
+      _audioMuted = initialSettings.audioMuted;
+    }
+    if (initialSettings?.isOnline != null) {
+      _offlineMode = !initialSettings.isOnline;
+    }
+    // if (initialSettings?.boardId != null) {
+    //   _mode = initialSettings.isDarkMode ? ThemeMode.dark : ThemeMode.dark;
+    // }
   }
 
   bool _audioMuted = true;
@@ -40,13 +53,13 @@ class GameManagerState with ChangeNotifier {
 
   setDarkTheme() {
     _mode = ThemeMode.dark;
-    //StorageService().setVal("isDarkMode", true.toString());
+    Hive.box("settings").put('isDarkMode', true);
     notifyListeners();
   }
 
   setLightTheme() {
     _mode = ThemeMode.light;
-    //StorageService().setVal("isDarkMode", false.toString());
+    Hive.box("settings").put('isDarkMode', false);
     notifyListeners();
   }
 
@@ -84,8 +97,8 @@ class GameManagerState with ChangeNotifier {
   };
 
   setGameOptionPreset(PresetGameOption presetGameOption) {
-    //StorageService()
-    //.setVal("defaultGameMode", presetGameOption.toString().split('.')[1]);
+    Hive.box("settings")
+        .put('presetGameOption', ParserUtility.getEnumValue(presetGameOption));
     setGameOptions(PresetGameOptions[presetGameOption]);
   }
 
@@ -126,17 +139,20 @@ class GameManagerState with ChangeNotifier {
   }
 
   muteAudio() {
-    _audioMuted = true;
-    notifyListeners();
+    updateAudioMute(true);
   }
 
   unMuteAudio() {
-    _audioMuted = false;
-    notifyListeners();
+    updateAudioMute(false);
   }
 
   toggleAudio() {
-    _audioMuted = !_audioMuted;
+    updateAudioMute(!_audioMuted);
+  }
+
+  updateAudioMute(bool mute) {
+    _audioMuted = mute;
+    Hive.box("settings").put('isAudioMuted', false);
     notifyListeners();
   }
 

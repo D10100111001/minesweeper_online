@@ -8,4 +8,8 @@ class ParserUtility {
     final typeName = values[0]?.toString()?.split('.')[0];
     return values.firstWhere((e) => e.toString() == "$typeName.$val");
   }
+
+  static String getEnumValue<T>(T value) {
+    return value.toString().split('.').last;
+  }
 }

@@ -11,7 +11,13 @@ dependencies:
     sdk: flutter
 
   flutter_context_menu_web:
-    git: https://github.com/D10100111001/flutter_context_menu_web
+    git:
+      url: https://github.com/D10100111001/flutter_context_menu_web.git
+      ref: master
+  flutter_audioplayers_web:
+    git:
+      url: https://github.com/D10100111001/flutter_audioplayers_web.git
+      ref: master
   # flutter_local_storage:
   #   git: https://github.com/D10100111001/flutter_local_storage
   provider: ^3.1.0
@@ -31,12 +37,12 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/click.mp3
-    - assets/opening.mp3
-    - assets/flag.mp3
-    - assets/win.mp3
-    - assets/explode.mp3
-    - assets/lose.mp3
+    - assets/audio/click.mp3
+    - assets/audio/opening.mp3
+    - assets/audio/flag.mp3
+    - assets/audio/win.mp3
+    - assets/audio/explode.mp3
+    - assets/audio/lose.mp3
 
   fonts:
     - family: Minesweeper

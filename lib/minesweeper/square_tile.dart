@@ -38,12 +38,8 @@ class SquareTile extends StatelessWidget {
       child: DecoratedBox(
         decoration: decoration,
         child: MouseRegion(
-          onEnter: (e) {
-            print('roll over');
-          },
-          onExit: (e) {
-            print('roll out');
-          },
+          onEnter: (e) {},
+          onExit: (e) {},
           child: Listener(
             onPointerDown: (e) {
               if (e.buttons == 2) {
