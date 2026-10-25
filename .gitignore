@@ -13,3 +13,7 @@ doc/api/
 
 
 screenshots
+
+# Flutter regenerates plugin discovery for each private build/cache path.
+.flutter-plugins
+.flutter-plugins-dependencies
