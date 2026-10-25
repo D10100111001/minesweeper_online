@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_context_menu_web/context_menu.dart';
 import 'package:minesweeper_online/helpers/box_decoration.dart';
 import 'package:minesweeper_online/models/square.dart';
@@ -9,13 +8,14 @@ import 'package:minesweeper_online/models/square_type.dart';
 class SquareTile extends StatelessWidget {
   final Square square;
   final bool showContents;
-  final Function onOpen;
-  final Function onMark;
-  const SquareTile(
-      {@required this.square,
-      @required this.onOpen,
-      @required this.onMark,
-      this.showContents});
+  final VoidCallback onOpen;
+  final VoidCallback onMark;
+  const SquareTile({
+    required this.square,
+    required this.onOpen,
+    required this.onMark,
+    this.showContents = false,
+  });
 
   Widget buildTileBorder(
       bool opened, Widget child, ToggleButtonsThemeData themeData) {
@@ -25,7 +25,7 @@ class SquareTile extends StatelessWidget {
         color: themeData.fillColor,
         border: Border.all(
           width: 1.0,
-          color: themeData.selectedBorderColor,
+          color: themeData.selectedBorderColor ?? Colors.transparent,
         ),
       );
     else {
@@ -112,7 +112,7 @@ class SquareTile extends StatelessWidget {
               tileText,
               style: TextStyle(
                   color: testColor,
-                  fontFamily: themeData.textTheme.body2.fontFamily),
+                  fontFamily: themeData.textTheme.bodyLarge?.fontFamily),
             ),
             ...stackItems,
           ],

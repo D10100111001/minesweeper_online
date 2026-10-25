@@ -1,4 +1,1 @@
-enum SquareType {
-  Empty,
-  Mine
-}
+enum SquareType { Empty, Mine }

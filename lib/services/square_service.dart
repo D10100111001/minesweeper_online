@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:minesweeper_online/models/game_options.dart';
 import 'package:minesweeper_online/models/matrix_cell.dart';
 import 'package:minesweeper_online/models/square.dart';
@@ -11,7 +10,7 @@ import 'package:minesweeper_online/models/square_type.dart';
 class SweeperService {
   final GameOptions options;
 
-  SweeperService({@required this.options});
+  SweeperService({required this.options});
 
   List<Square> generateBoardSquares() {
     final squares = List.generate(
@@ -29,8 +28,8 @@ class SweeperService {
         key: (square) => coordinateToIndex(square.cell));
     final finalSquares = squares
         .asMap()
-        .map((index, square) => MapEntry(index,
-            minesSquareMap.containsKey(index) ? minesSquareMap[index] : square))
+        .map(
+            (index, square) => MapEntry(index, minesSquareMap[index] ?? square))
         .values
         .toList();
     final boardSquares = finalSquares
@@ -49,7 +48,7 @@ class SweeperService {
   }
 
   List<Square> moveMine(List<Square> boardSquares, Square square,
-      [List<int> excludedIndexes]) {
+      [List<int>? excludedIndexes]) {
     if (square.type != SquareType.Mine) return boardSquares;
     final index = coordinateToIndex(square.cell);
     final newBoardSquares = List.of(boardSquares);
@@ -60,8 +59,7 @@ class SweeperService {
       int randomSquare;
       do {
         randomSquare = rng.nextInt(boardSquares.length);
-      } while (
-          excludedIndexes != null && excludedIndexes.contains(randomSquare));
+      } while ((excludedIndexes ?? const <int>[]).contains(randomSquare));
 
       final square = newBoardSquares[randomSquare];
       if (square.type == SquareType.Empty) {
@@ -124,9 +122,9 @@ class SweeperService {
     final squareIndexMap = Map<int, Square>();
     final revealedSquares = HashSet<Square>();
     revealSquare(boardSquares, startSquare, squareIndexMap, revealedSquares);
-    final newBoardSquares = List<Square>();
-    boardSquares.asMap().forEach((index, square) => newBoardSquares.add(
-        squareIndexMap.containsKey(index) ? squareIndexMap[index] : square));
+    final newBoardSquares = <Square>[];
+    boardSquares.asMap().forEach((index, square) =>
+        newBoardSquares.add(squareIndexMap[index] ?? square));
     return newBoardSquares;
   }
 
@@ -185,9 +183,9 @@ class SweeperService {
   }
 
   int countNighboringMines(List<Square> boardSquares, Square square,
-      [List<Square> neighbors]) {
-    if (neighbors == null) neighbors = findNeighbors(boardSquares, square);
-    return neighbors.fold<int>(
+      [List<Square>? neighbors]) {
+    final adjacentSquares = neighbors ?? findNeighbors(boardSquares, square);
+    return adjacentSquares.fold<int>(
         0, (sum, square) => sum + (square.type == SquareType.Mine ? 1 : 0));
   }
 

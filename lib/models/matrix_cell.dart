@@ -1,15 +1,16 @@
-import 'package:quiver/core.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 @immutable
 class MatrixCell {
   final int row;
   final int column;
-  const MatrixCell({@required this.row, @required this.column});
+  const MatrixCell({required this.row, required this.column});
 
-  bool operator ==(o) {
-    return o is MatrixCell && (o.row == row && o.column == column);
+  @override
+  bool operator ==(Object other) {
+    return other is MatrixCell && (other.row == row && other.column == column);
   }
 
-  int get hashCode => hash2(row.hashCode, column.hashCode);
+  @override
+  int get hashCode => Object.hash(row, column);
 }

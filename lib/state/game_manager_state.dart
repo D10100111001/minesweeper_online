@@ -10,18 +10,12 @@ import 'package:minesweeper_online/models/matrix_dimensions.dart';
 enum PresetGameOption { Beginner, Intermediate, Expert }
 
 class GameManagerState with ChangeNotifier {
-  GameManagerState({@required GameSettings initialSettings}) {
+  GameManagerState({required GameSettings initialSettings}) {
     _options = GameManagerState.PresetGameOptions[
-        initialSettings?.defaultGameMode ?? PresetGameOption.Beginner];
-    if (initialSettings?.isDarkMode != null) {
-      _mode = initialSettings.isDarkMode ? ThemeMode.dark : ThemeMode.light;
-    }
-    if (initialSettings?.audioMuted != null) {
-      _audioMuted = initialSettings.audioMuted;
-    }
-    if (initialSettings?.isOnline != null) {
-      _offlineMode = !initialSettings.isOnline;
-    }
+        initialSettings.defaultGameMode ?? PresetGameOption.Beginner]!;
+    _mode = initialSettings.isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    _audioMuted = initialSettings.audioMuted;
+    _offlineMode = !initialSettings.isOnline;
     // if (initialSettings?.boardId != null) {
     //   _mode = initialSettings.isDarkMode ? ThemeMode.dark : ThemeMode.dark;
     // }
@@ -39,7 +33,7 @@ class GameManagerState with ChangeNotifier {
   bool _openingMoveMode = true;
   bool get openingMoveMode => _openingMoveMode;
 
-  GameOptions _options;
+  late GameOptions _options;
   GameOptions get options => _options;
 
   GameState _state = GameState.NotStarted;
@@ -87,7 +81,7 @@ class GameManagerState with ChangeNotifier {
     notifyListeners();
   }
 
-  static const PresetGameOptions = {
+  static const Map<PresetGameOption, GameOptions> PresetGameOptions = {
     PresetGameOption.Beginner: const GameOptions(
         dimensions: const MatrixDimensions(rows: 9, columns: 9), mines: 10),
     PresetGameOption.Intermediate: const GameOptions(
@@ -99,7 +93,7 @@ class GameManagerState with ChangeNotifier {
   setGameOptionPreset(PresetGameOption presetGameOption) {
     Hive.box("settings")
         .put('presetGameOption', ParserUtility.getEnumValue(presetGameOption));
-    setGameOptions(PresetGameOptions[presetGameOption]);
+    setGameOptions(PresetGameOptions[presetGameOption]!);
   }
 
   setPlayTestMode([bool enabled = true]) {

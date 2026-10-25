@@ -1,1 +1,8 @@
-enum SquareStateType { Closed, Opened, Flagged, WrongFlagged, Marked, TriggerMine }
+enum SquareStateType {
+  Closed,
+  Opened,
+  Flagged,
+  WrongFlagged,
+  Marked,
+  TriggerMine
+}

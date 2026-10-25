@@ -1,28 +1,21 @@
-import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:minesweeper_online/is_browser/main.dart';
 
 enum GameAudioTrack { Click, Opening, Flag, Win, Explode, Lose }
 
 class GameAudioService {
-  static const PATH_PREFIX = 'audio/';
-  static AudioCache player =
-      AudioCache(respectSilence: true, prefix: PATH_PREFIX);
+  static const pathPrefix = 'audio/';
+  static final AudioPlayer player = AudioPlayer();
 
-  static final files = GameAudioTrack.values.map(toFileName).toList();
-
-  static String toFileName(value) =>
+  static String toFileName(GameAudioTrack value) =>
       value.toString().split('.')[1].toLowerCase() + '.mp3';
 
-  static Future init() async {
-    if (!isBrowser) await player.loadAll(files);
-  }
+  static Future<void> init() async {}
 
-  static Future playTrack(GameAudioTrack track) async {
+  static Future<void> playTrack(GameAudioTrack track) async {
     final path = toFileName(track);
-    if (isBrowser)
-      await AudioPlayer(mode: PlayerMode.LOW_LATENCY).play("$PATH_PREFIX$path");
-    else
-      await player.play(path, mode: PlayerMode.LOW_LATENCY);
+    await player.play(
+      AssetSource('$pathPrefix$path'),
+      mode: PlayerMode.lowLatency,
+    );
   }
 }

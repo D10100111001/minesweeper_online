@@ -7,22 +7,23 @@ import 'package:provider/provider.dart';
 class Timer extends StatelessWidget {
   final Widget child;
   final bool countDown;
-  Timer({@required this.child, this.countDown = true});
+  Timer({super.key, required this.child, this.countDown = true});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProxyProvider<GameManagerState, TimerState>(
-      initialBuilder: (_) => TimerState(countDown: countDown),
-      builder: (_, gameManager, timer) {
+      create: (_) => TimerState(countDown: countDown),
+      update: (_, gameManager, timer) {
+        final currentTimer = timer ?? TimerState(countDown: countDown);
         if (gameManager.state == GameState.NotStarted) {
-          timer.stop();
-          timer.reset();
+          currentTimer.stop();
+          currentTimer.reset();
         } else if (gameManager.state == GameState.Started) {
-          timer.start();
+          currentTimer.start();
         } else if (gameManager.ended) {
-          timer.stop();
+          currentTimer.stop();
         }
-        return timer;
+        return currentTimer;
       },
       child: child,
     );

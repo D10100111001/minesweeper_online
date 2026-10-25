@@ -4,11 +4,11 @@ import 'package:minesweeper_online/services/square_service.dart';
 
 class BoardState with ChangeNotifier {
   final SweeperService service;
-  BoardState({@required this.service}) {
-    _boardSquares = this.service.generateBoardSquares();
+  BoardState({required this.service}) {
+    _boardSquares = service.generateBoardSquares();
   }
 
-  List<Square> _boardSquares;
+  late List<Square> _boardSquares;
   List<Square> get boardSquares => _boardSquares;
 
   bool _isPristine = true;

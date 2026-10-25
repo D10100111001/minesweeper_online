@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/minesweeper/minesweeper.dart';
-import 'package:minesweeper_online/page.dart';
+import 'package:minesweeper_online/page.dart' as app_page;
 import 'package:minesweeper_online/state/game_manager_state.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +18,7 @@ class MinesweeperPage extends StatelessWidget {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -32,7 +31,7 @@ class MinesweeperPage extends StatelessWidget {
   }
 
   Widget createOptionsBooleanListItem(BuildContext context, IconData icon,
-      String title, String description, bool val, Function onChange) {
+      String title, String description, bool val, VoidCallback onChange) {
     return SizedBox(
       width: 600.0,
       child: MergeSemantics(
@@ -48,9 +47,9 @@ class MinesweeperPage extends StatelessWidget {
           ),
           leading: Icon(icon),
           trailing: CupertinoSwitch(
-            activeColor: Colors.green,
+            activeTrackColor: Colors.green,
             value: val,
-            onChanged: (_) => onChange,
+            onChanged: (_) => onChange(),
           ),
           onTap: onChange,
         ),
@@ -105,7 +104,7 @@ class MinesweeperPage extends StatelessWidget {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -121,32 +120,32 @@ class MinesweeperPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final gameManager = Provider.of<GameManagerState>(context);
 
-    return Page(
+    return app_page.Page(
       child: Center(
         child: Column(children: <Widget>[
           Wrap(
             alignment: WrapAlignment.center,
             children: <Widget>[
-              OutlineButton(
+              OutlinedButton(
                 child: Text('Instructions'),
                 onPressed: () => showInstructions(context),
               ),
-              OutlineButton(
+              OutlinedButton(
                 child: Text('Beginner'),
                 onPressed: () =>
                     gameManager.setGameOptionPreset(PresetGameOption.Beginner),
               ),
-              OutlineButton(
+              OutlinedButton(
                 child: Text('Intermediate'),
                 onPressed: () => gameManager
                     .setGameOptionPreset(PresetGameOption.Intermediate),
               ),
-              OutlineButton(
+              OutlinedButton(
                 child: Text('Expert'),
                 onPressed: () =>
                     gameManager.setGameOptionPreset(PresetGameOption.Expert),
               ),
-              OutlineButton(
+              OutlinedButton(
                 child: Text('Options'),
                 onPressed: () => showOptionsDialog(context, gameManager),
               ),

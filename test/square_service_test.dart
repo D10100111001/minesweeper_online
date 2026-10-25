@@ -8,7 +8,7 @@ import 'package:minesweeper_online/state/game_manager_state.dart';
 void main() {
   group('Sweeper Service Logic Test', () {
     SweeperService service = SweeperService(
-      options: GameManagerState.PresetGameOptions[PresetGameOption.Expert],
+      options: GameManagerState.PresetGameOptions[PresetGameOption.Expert]!,
     );
     List<Square> boardSquares = service.generateBoardSquares();
     test('cell to index conversion is accurate', () {

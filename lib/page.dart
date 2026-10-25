@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/responsive_widget.dart';
 import 'package:minesweeper_online/state/game_manager_state.dart';
 import 'package:provider/provider.dart';
 
 class Page extends StatelessWidget {
   final Widget child;
-  const Page({Key key, this.child}) : super();
+  const Page({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,8 @@ class Page extends StatelessWidget {
         body: SingleChildScrollView(
           child: AnimatedPadding(
             duration: Duration(seconds: 1),
-            padding: EdgeInsets.fromLTRB(0, 15.0, 0, 0), //EdgeInsets.all(MediaQuery.of(context).size.height * 0.0),
+            padding: EdgeInsets.fromLTRB(0, 15.0, 0,
+                0), //EdgeInsets.all(MediaQuery.of(context).size.height * 0.0),
             child: ResponsiveWidget(
               largeScreen: child,
             ),

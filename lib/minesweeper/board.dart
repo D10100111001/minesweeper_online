@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/helpers/box_decoration.dart';
 import 'package:minesweeper_online/minesweeper/square_tile.dart';
 import 'package:minesweeper_online/models/game_state.dart';
@@ -14,8 +12,11 @@ import 'package:minesweeper_online/state/game_manager_state.dart';
 class Board extends StatelessWidget {
   final GameManagerState gameManager;
   final BoardState boardState;
-  const Board({Key key, @required this.gameManager, @required this.boardState})
-      : super(key: key);
+  const Board({
+    super.key,
+    required this.gameManager,
+    required this.boardState,
+  });
 
   void markSquare(Square square) {
     if (gameManager.ended) return;
@@ -33,21 +34,17 @@ class Board extends StatelessWidget {
         square.state == SquareStateType.Flagged ||
         square.state == SquareStateType.Marked) return;
     if (gameManager.state == GameState.NotStarted) {
-      int index;
-      List<Square> boardSquares;
+      var index = boardState.service.coordinateToIndex(square.cell);
+      var boardSquares = boardState.boardSquares;
       if (gameManager.openingMoveMode) {
-        index = boardState.service.coordinateToIndex(square.cell);
         boardSquares =
             boardState.service.clearNeighbors(boardState.boardSquares, square);
       } else if (gameManager.isFirstSafeMove) {
-        index = boardState.service.coordinateToIndex(square.cell);
         boardSquares =
             boardState.service.moveMine(boardState.boardSquares, square);
       }
-      if (boardSquares != null && index != null) {
-        boardState.setBoard(boardSquares);
-        square = boardSquares[index];
-      }
+      boardState.setBoard(boardSquares);
+      square = boardSquares[index];
     }
     playTrack(GameAudioTrack.Click);
     if (square.type == SquareType.Mine) {
@@ -104,7 +101,7 @@ class Board extends StatelessWidget {
           title: Text(win ? "Congratulations!" : "Game Over!"),
           content: Text(win ? "You Win!" : "You stepped on a mine!"),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () {
                 gameManager.restartGame();
                 Navigator.pop(context);

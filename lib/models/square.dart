@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:minesweeper_online/models/matrix_cell.dart';
 import 'package:minesweeper_online/models/square_state_type.dart';
@@ -11,7 +10,7 @@ class Square {
   final SquareStateType state;
   final int adjacentMines;
   Square(
-      {@required this.cell,
+      {required this.cell,
       this.type = SquareType.Empty,
       this.state = SquareStateType.Closed,
       this.adjacentMines = 0});
@@ -110,7 +109,7 @@ class Square {
     );
   }
 
-  static final colorMap = {
+  static final Map<int, Color> colorMap = {
     0: Colors.transparent,
     1: const Color(0xFF0000FF),
     2: const Color(0xFF008200),
@@ -122,7 +121,5 @@ class Square {
     8: const Color(0xFF757575),
   };
 
-  Color get color => colorMap.containsKey(adjacentMines)
-      ? colorMap[adjacentMines]
-      : Colors.white;
+  Color get color => colorMap[adjacentMines] ?? Colors.white;
 }

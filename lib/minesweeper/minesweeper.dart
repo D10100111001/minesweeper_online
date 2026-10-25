@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/helpers/box_decoration.dart';
 import 'package:minesweeper_online/minesweeper/board.dart';
 import 'package:minesweeper_online/minesweeper/hud.dart';
@@ -11,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class Minesweeper extends StatelessWidget {
   final GameManagerState gameManager;
-  const Minesweeper({Key key, @required this.gameManager}) : super(key: key);
+  const Minesweeper({super.key, required this.gameManager});
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +19,18 @@ class Minesweeper extends StatelessWidget {
       decoration: BoxDecorationHelper.buildMinesweeperDecoration(
           themeData.toggleButtonsTheme),
       child: ChangeNotifierProxyProvider<GameManagerState, BoardState>(
-        initialBuilder: (_) =>
+        create: (_) =>
             BoardState(service: SweeperService(options: gameManager.options)),
-        builder: (_, gameManager, boardState) {
-          if (gameManager.state == GameState.NotStarted) {
-            if (boardState.service.options != gameManager.options)
+        update: (_, manager, boardState) {
+          final currentBoard = boardState ??
+              BoardState(service: SweeperService(options: manager.options));
+          if (manager.state == GameState.NotStarted) {
+            if (currentBoard.service.options != manager.options)
               return BoardState(
-                  service: SweeperService(options: gameManager.options));
-            else if (!boardState.isPristine)
-              boardState.resetBoard();
+                  service: SweeperService(options: manager.options));
+            else if (!currentBoard.isPristine) currentBoard.resetBoard();
           }
-          return boardState;
+          return currentBoard;
         },
         child: SizedBox(
           width: gameManager.options.dimensions.columns * 32.0,

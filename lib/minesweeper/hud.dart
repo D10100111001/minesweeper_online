@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:minesweeper_online/counter.dart';
 import 'package:minesweeper_online/helpers/box_decoration.dart';
 import 'package:minesweeper_online/models/game_state.dart';
@@ -11,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class Hud extends StatelessWidget {
   final GameManagerState gameManager;
-  Hud({this.gameManager});
+  Hud({super.key, required this.gameManager});
 
   static const GameStateIconMap = {
     GameState.NotStarted: Icons.sentiment_very_satisfied,
@@ -53,7 +52,7 @@ class Hud extends StatelessWidget {
                       child: Center(
                         child: ClipOval(
                           child: Container(
-                              color: Theme.of(context).buttonColor,
+                              color: Theme.of(context).colorScheme.secondary,
                               child: Icon(GameStateIconMap[gameManager.state])),
                         ),
                       ),

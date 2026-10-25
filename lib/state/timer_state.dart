@@ -10,7 +10,7 @@ class TimerState with ChangeNotifier {
   }
 
   int time = 0;
-  Timer timer;
+  Timer? timer;
 
   void tick() {
     time += countDown ? -1 : 1;
@@ -18,12 +18,12 @@ class TimerState with ChangeNotifier {
   }
 
   void stop() {
-    if (timer != null && timer.isActive) timer.cancel();
+    if (timer?.isActive ?? false) timer!.cancel();
   }
 
   void start() {
     stop();
-    timer = Timer.periodic(Duration(seconds: 1), (_) => tick());
+    timer = Timer.periodic(const Duration(seconds: 1), (_) => tick());
   }
 
   void reset() {
@@ -31,7 +31,8 @@ class TimerState with ChangeNotifier {
     notifyListeners();
   }
 
-  void dipose() {
+  @override
+  void dispose() {
     stop();
     super.dispose();
   }
